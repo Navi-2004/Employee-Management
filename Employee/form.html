@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Allocation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    
+</head>
+<body>
+    <div class="center">
+        <form action="connection.php" method="post"> 
+        <h1>Staff Allocation</h1>
+        <div class="form">
+            <input type="text" name="" class="textfield" placeholder="Professor ID">
+            <input type="text"name="stname"  class="textfield" placeholder="Professor Name">
+            <select name="gender" id="" class="textfield"> 
+                <option>Select Gender</option>
+                 <option value="Male">Male</option>
+                 <option value="Female">Female</option>
+            </select>
+            <input type="text" name="email" class="textfield" placeholder="Email Address">
+            <select name="dept" id="" class="textfield">
+                <option>Select Department</option>
+                 <option value="CSE">CSE</option>
+                 <option value="IT">IT</option>
+                 <option value="AIDS">AIDS</option>
+                 <option value="BME" >BME</option>
+                 <option value="ECE">ECE</option>
+                 <option value="EEE">EEE</option>
+                 <option value="MECH">MECH</option>
+                 <option value="Mechatronics">Mechatronics</option>
+                 
+            </select>
+            <input type="submit" value="Search" name="" class="btn">
+            <input type="submit" value="Save" name="save" class="btn" style="background-color: blue;
+            ">
+            <input type="submit" value="Modify" name="" class="btn" style="background-color: blueviolet;">
+            <input type="submit" value="Delete" name="" class="btn" style="background-color: yellow;">
+            <input type="submit" value="Clear" name="" class="btn" style="background-color: brown;">
+
+            
+        </div>
+    </form>
+
+    </div>
+    
+</body>
+</html>
+<?php
+include("connection.php");
+?>
+<?php
+if(isset($_POST['searchdata']))
+{
+    $search=$_POST['search'];
+    $query="SELECT * from allocate where id='$search' ";
+    $data=mysqli_query($conn,$query);
+    $result=mysqli_fetch_assoc($data);
+    
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Allocation</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    
+</head>
+<body>
+<a href="index.html" class="logo"><img src="images/logo1.png" style="width:350px" ></a>
+    <div class="center">
+        <form action="#" method="POST">
+        <h1>Staff Allocation</h1>
+        <div class="form" action="#" >
+            <input type="text" class="textfield" name="search" placeholder="Search ID" value="<?php if(isset($_POST['searchdata'])){ echo $result['id']; }?> ">
+            <input type="text" class="textfield" name="name" placeholder="Professor Name" value="<?php if(isset($_POST['searchdata'])){ echo $result['st_name']; }?> ">
+            <select name="gender" id="" class="textfield"> 
+                <option>Select Gender</option>
+                 <option value="Male"
+                 <?php
+                 if($result['st_gender']=="Male")
+                 {
+                  echo "selected";
+                 }
+                 ?>
+                 >Male</option>
+                 <option value="Female"
+                 <?php
+                 if($result['st_gender']=="Female")
+                 {
+                  echo "selected";
+                 }
+                 ?>>Female</option>
+            </select>
+            <input type="text" name="email" class="textfield" placeholder="Email Address">
+            <select name="dept" id="" class="textfield">
+                <option>Select Department</option>
+                 <option name="CSE">CSE</option>
+                 <option name="IT" >IT</option>
+                 <option name="AIDS">AIDS</option>
+                 <option name="BME" >BME</option>
+                 <option name="ECE">ECE</option>
+                 <option name="EEE" >EEE</option>
+                 <option name="MECH">MECH</option>
+                 <option name="Mechatronics">Mechatronics</option>
+                 
+            </select>
+            <input type="submit" value="Search" name="searchdata" class="btn">
+            <input type="submit" value="Save" name="Save" class="btn" style="background-color: blue;">
+            <input type="submit" value="Modify" name="" class="btn" style="background-color: blueviolet;">
+            <input type="submit" value="Delete" name="" class="btn" style="background-color: yellow;">
+            <input type="submit" value="Clear" name="" class="btn" style="background-color: brown;">
+
+            
+        </div>
+        
+</form>
+    </div>
+    
+</body>
+</html>
+
+<?php
+if(isset($_POST['Save']))
+{
+    $name     =  $_POST['name'];
+    $gender   = $_POST['gender'];
+    $email    =$_POST['email'];
+    $dept    =$_POST['dept'];
+     
+    $query = "INSERT INTO allocate(st_name,st_gender,st_email,st_dept ) VALUES ('$name','$gender','$email','$dept')" ;
+    
+    $data=mysqli_query($conn,$query);
+    if($data)
+    {
+        echo "Data Saved Successfully";
+    }
+    else{
+        echo "Data has not saved";
+    }
+}
+?>
